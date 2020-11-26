@@ -1,5 +1,7 @@
 package com.bridgelabz.employeepayrollapp.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +17,15 @@ public class Employee {
 	private Long id;
 	private String empName;
 	private Long salary;
+	private Date createdDate = new Date();
+	
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
 
 	public Long getId() {
 		return id;
