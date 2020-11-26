@@ -1,5 +1,7 @@
 package com.bridgelabz.employeepayrollapp.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,7 @@ public class EmployeeController {
 	private IEmployee iEmployee;
 	
 	@PostMapping("/add")
-	public ResponseEntity<Response> addEmployee(@RequestBody EmployeeDTO employeeDTO) {
+	public ResponseEntity<Response> addEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
 		Response response = iEmployee.addEmployee(employeeDTO);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
@@ -42,7 +44,7 @@ public class EmployeeController {
 	}
 	
 	@PutMapping("/update/{id}")
-	public  ResponseEntity<Response> edit(@PathVariable("id") long id,@RequestBody EmployeeDTO employeeDTO) {
+	public  ResponseEntity<Response> edit(@PathVariable("id") long id,@Valid @RequestBody EmployeeDTO employeeDTO) {
 		Response response = iEmployee.editEmployee(id, employeeDTO);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
