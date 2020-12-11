@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.employeepayrollapp.model.Employee;
 
-//@Repository
+@Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	
 	public Optional<Employee> findByEmpName(String empName);

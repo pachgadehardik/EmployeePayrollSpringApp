@@ -25,12 +25,25 @@ public class GlobalException {
 				.forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
 		return errors;
 	}
-	
+
 	@ExceptionHandler(EmployeeException.class)
-	public ResponseEntity<Response> handleCustomEmployeeException(EmployeeException empEx){
+	public ResponseEntity<Response> handleCustomEmployeeException(EmployeeException empEx) {
 		Response response = new Response(empEx.getStatusCode(), empEx.getMsg());
-		
+
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
+
+	@ExceptionHandler(JWTException.class)
+	public ResponseEntity<Response> handleJWTException(JWTException jwtExcption) {
+		Response response = new Response(jwtExcption.getStatusCode(), jwtExcption.getMessage());
+
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Response> handleException(Exception exception) {
+		Response response = new Response(500, "Internal Server Exception");
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+
 }

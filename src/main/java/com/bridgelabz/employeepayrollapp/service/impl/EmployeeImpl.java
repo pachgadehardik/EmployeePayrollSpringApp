@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import com.bridgelabz.employeepayrollapp.excpetions.EmployeeException;
 import com.bridgelabz.employeepayrollapp.model.Employee;
 import com.bridgelabz.employeepayrollapp.repository.EmployeeRepository;
 import com.bridgelabz.employeepayrollapp.service.IEmployee;
+import com.bridgelabz.employeepayrollapp.utility.IMessage;
 import com.bridgelabz.employeepayrollapp.utility.Response;
 
 @Service
@@ -26,6 +28,9 @@ public class EmployeeImpl implements IEmployee {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	/**
+	 *Adding Employee to DB
+	 */
 	@Override
 	public Response addEmployee(EmployeeDTO employeeDTO) {
 		Optional<Employee> employee = empRepository.findByEmpName(employeeDTO.getEmpName());
@@ -35,19 +40,26 @@ public class EmployeeImpl implements IEmployee {
 		
 		Employee emp = modelMapper.map(employeeDTO, Employee.class);
 		empRepository.save(emp);
-		return new Response(HttpStatus.OK.value(), "Employee Added Successfully!!");
+		return new Response(HttpStatus.OK.value(), IMessage.USER_ADDED_MESSAGE);
 	}
 
+	/**
+	 *Fetching Employee from DB
+	 */
 	@Override
 	public Response getEmployee() {
 		List<Employee> listEmployee = empRepository.findAll();
+		System.out.println(listEmployee.toString());
 		if(listEmployee.isEmpty()) {
 			throw new EmployeeException(HttpStatus.NO_CONTENT.value(), "Employees Not Found");
 		}
-		List<EmployeeDTO> listEmployeeDTO =  listEmployee.stream().map(emp ->{return modelMapper.map(emp, EmployeeDTO.class);}).collect(Collectors.toList());
-		return new Response(HttpStatus.OK.value(), listEmployeeDTO.toString());
+//		List<EmployeeDTO> listEmployeeDTO =  listEmployee.stream().map(emp ->{return modelMapper.map(emp, EmployeeDTO.class);}).collect(Collectors.toList());
+		return new Response(HttpStatus.OK.value(), HttpStatus.OK.name(),listEmployee);
 	}
 
+	/**
+	 *Fetching Employee from DB by providing Id
+	 */
 	@Override
 	public Response getEmployeeById(long empId) {
 		Employee employee = empRepository.findById(empId).orElseThrow(() -> 
@@ -55,6 +67,9 @@ public class EmployeeImpl implements IEmployee {
 		return new Response(HttpStatus.OK.value(), employee.toString());
 	}
 
+	/**
+	 *Updating Employee from DB by providing Id
+	 */
 	@Override
 	public Response editEmployee(long id, EmployeeDTO employeeDTO) {
 		Employee checkEmployeeExists = empRepository.findById(id).orElse(null);
@@ -68,6 +83,9 @@ public class EmployeeImpl implements IEmployee {
 		
 	}
 
+	/**
+	 *Deleting Employee from DB by providing Id
+	 */
 	@Override
 	public Response deleteEmployee(long empId) {
 		Employee checkEmployeeExists = empRepository.findById(empId).orElse(null);

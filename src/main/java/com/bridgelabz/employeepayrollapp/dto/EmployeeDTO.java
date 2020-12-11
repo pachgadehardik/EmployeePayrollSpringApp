@@ -5,22 +5,12 @@ import javax.validation.constraints.Size;
 
 public class EmployeeDTO {
 	
-	private Long id;
-	
 	@NotNull
 	@Size(min = 3, message = "Enter more than 3 characters")
 	private String empName;
 	@NotNull
 	private Long salary;
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	
+		
 	public String getEmpName() {
 		return empName;
 	}
@@ -33,12 +23,11 @@ public class EmployeeDTO {
 	public void setSalary(Long salary) {
 		this.salary = salary;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "EmployeeDTO [id=" + id + ", empName=" + empName + ", salary=" + salary + "]";
+		return "{\"empName\":\"" + empName + "\", \"salary\":" + salary + "}";
 	}
-	
 	
 
 }
