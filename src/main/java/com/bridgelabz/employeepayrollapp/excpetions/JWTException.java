@@ -3,9 +3,6 @@ package com.bridgelabz.employeepayrollapp.excpetions;
 public class JWTException extends RuntimeException{
 	
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7141438540271496879L;
 	
 	private int statusCode;

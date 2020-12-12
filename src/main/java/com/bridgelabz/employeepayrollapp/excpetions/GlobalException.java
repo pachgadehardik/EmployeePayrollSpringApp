@@ -45,5 +45,12 @@ public class GlobalException {
 		Response response = new Response(500, "Internal Server Exception");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
+	
+	@ExceptionHandler(UserLoginException.class)
+	public ResponseEntity<Response> handleUserException(UserLoginException userLoginException){
+		Response response = new Response(123, "Login Error");
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+	
 
 }
