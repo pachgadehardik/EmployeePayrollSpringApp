@@ -15,7 +15,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author hardi
+ * Genration and Validation of JWT Token 
+ *
+ */
+@Slf4j
 public class TokenHelper {
 
 	@Autowired
@@ -56,7 +63,8 @@ public class TokenHelper {
 					.parseClaimsJws(jwt).getBody();
 			return claims;
 		} catch (Exception e) {
-			throw new JWTException(123, "Invalid Token");
+			log.debug("Token is invalid");
+			throw new JWTException(IMessage.INVALID_TOKEN_CODE, IMessage.INVALID_TOKEN);
 		}
 
 	}
