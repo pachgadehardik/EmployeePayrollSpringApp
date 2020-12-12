@@ -17,6 +17,10 @@ import com.bridgelabz.employeepayrollapp.utility.IMessage;
 import com.bridgelabz.employeepayrollapp.utility.Response;
 import com.bridgelabz.employeepayrollapp.utility.TokenHelper;
 
+/**
+ * @author hardi
+ *Service Class for the User to log in the application
+ */
 @Service
 public class UserImpl implements IUser {
 
@@ -42,12 +46,12 @@ public class UserImpl implements IUser {
 
 //		ModelMapper.map(userDTO,User.class);
 		if (!user.isPresent()) {
-			throw new EmployeeException(HttpStatus.BAD_REQUEST.value(), "User does Not Exist");
+			throw new EmployeeException(HttpStatus.BAD_REQUEST.value(), IMessage.USER_NOT_EXIST);
 		}
 		User userObj = user.get();
 		String tokenString = tokenHelper.createJWT(userObj.getId().toString(), environment.getProperty("token.issuer"),
 				environment.getProperty("token.subject"), Long.parseLong(environment.getProperty("token.expirationTime")));
-		return new Response(HttpStatus.OK.value(), tokenString);
+		return new Response(HttpStatus.OK.value(), HttpStatus.OK.name(), tokenString);
 	}
 
 }

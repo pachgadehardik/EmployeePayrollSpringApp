@@ -2,12 +2,9 @@ package com.bridgelabz.employeepayrollapp.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +16,14 @@ import com.bridgelabz.employeepayrollapp.service.IEmployee;
 import com.bridgelabz.employeepayrollapp.utility.IMessage;
 import com.bridgelabz.employeepayrollapp.utility.Response;
 
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @author hardi
+ *Service Class which contains API logics
+ */
 @Service
+@Slf4j
 public class EmployeeImpl implements IEmployee {
 
 	@Autowired
@@ -35,26 +39,27 @@ public class EmployeeImpl implements IEmployee {
 	public Response addEmployee(EmployeeDTO employeeDTO) {
 		Optional<Employee> employee = empRepository.findByEmpName(employeeDTO.getEmpName());
 		if(employee.isPresent()) {
-			throw new EmployeeException(HttpStatus.BAD_REQUEST.value(), "Employee Already Exists!");
+			log.info("Employee Already Exists");
+			throw new EmployeeException(HttpStatus.BAD_REQUEST.value(), IMessage.EMPLOYEE_ALREADY_EXISTS);
 		}
 		
 		Employee emp = modelMapper.map(employeeDTO, Employee.class);
 		empRepository.save(emp);
+		log.info("Employee Added in the Db");
 		return new Response(HttpStatus.OK.value(), IMessage.USER_ADDED_MESSAGE);
 	}
-
+	
 	/**
 	 *Fetching Employee from DB
 	 */
 	@Override
 	public Response getEmployee() {
 		List<Employee> listEmployee = empRepository.findAll();
-		System.out.println(listEmployee.toString());
 		if(listEmployee.isEmpty()) {
 			throw new EmployeeException(HttpStatus.NO_CONTENT.value(), "Employees Not Found");
 		}
-//		List<EmployeeDTO> listEmployeeDTO =  listEmployee.stream().map(emp ->{return modelMapper.map(emp, EmployeeDTO.class);}).collect(Collectors.toList());
-		return new Response(HttpStatus.OK.value(), HttpStatus.OK.name(),listEmployee);
+		log.info("Employee List Retrieved");
+		return new Response(HttpStatus.OK.value(), HttpStatus.OK.name(),listEmployee.toArray());
 	}
 
 	/**
@@ -63,7 +68,7 @@ public class EmployeeImpl implements IEmployee {
 	@Override
 	public Response getEmployeeById(long empId) {
 		Employee employee = empRepository.findById(empId).orElseThrow(() -> 
-			new EmployeeException(HttpStatus.NO_CONTENT.value(), "Employee Not Found"));
+			new EmployeeException(HttpStatus.NO_CONTENT.value(), IMessage.EMPLOYEE_NOT_FOUND));
 		return new Response(HttpStatus.OK.value(), employee.toString());
 	}
 
@@ -74,7 +79,7 @@ public class EmployeeImpl implements IEmployee {
 	public Response editEmployee(long id, EmployeeDTO employeeDTO) {
 		Employee checkEmployeeExists = empRepository.findById(id).orElse(null);
 		if(checkEmployeeExists == null) {
-			throw new EmployeeException(HttpStatus.BAD_REQUEST.value(), "Employee Does Not Exists!!");
+			throw new EmployeeException(HttpStatus.BAD_REQUEST.value(), IMessage.EMPLOYEE_NOT_FOUND);
 		}
 		Employee employee = modelMapper.map(employeeDTO, Employee.class);
 		employee.setId(id);
@@ -90,10 +95,10 @@ public class EmployeeImpl implements IEmployee {
 	public Response deleteEmployee(long empId) {
 		Employee checkEmployeeExists = empRepository.findById(empId).orElse(null);
 		if(checkEmployeeExists == null) {
-			throw new EmployeeException(HttpStatus.NOT_MODIFIED.value(), "Employee Does Not Exists!!");
+			throw new EmployeeException(HttpStatus.NOT_MODIFIED.value(), IMessage.EMPLOYEE_NOT_FOUND);
 		}
 		empRepository.deleteById(empId);
-		return new Response(HttpStatus.OK.value(), "Employee Deleted!");
+		return new Response(HttpStatus.OK.value(), IMessage.EMPLOYEE_DELETED);
 	}
 	
 
