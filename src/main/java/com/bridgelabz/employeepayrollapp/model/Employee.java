@@ -8,8 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "Employees")
+@Data
 public class Employee {
 
 	@Id
@@ -18,42 +21,5 @@ public class Employee {
 	private String empName;
 	private Long salary;
 	private Date createdDate = new Date();
-	
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getEmpName() {
-		return empName;
-	}
-
-	public void setEmpName(String empName) {
-		this.empName = empName;
-	}
-
-	public Long getSalary() {
-		return salary;
-	}
-
-	public void setSalary(Long salary) {
-		this.salary = salary;
-	}
-
-	@Override
-	public String toString() {
-		return "Employee [id=" + id + ", empName=" + empName + ", salary=" + salary + "]";
-	}
 
 }
