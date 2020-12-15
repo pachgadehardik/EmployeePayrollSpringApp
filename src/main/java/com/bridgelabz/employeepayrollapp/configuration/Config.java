@@ -9,14 +9,14 @@ import com.bridgelabz.employeepayrollapp.utility.TokenHelper;
 @Configuration
 public class Config {
 
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
-	@Bean
-	public TokenHelper tokenHelper() {
-		
-		return new TokenHelper();
-	}
+    @Bean
+    public TokenHelper tokenHelper() {
+
+        return new TokenHelper();
+    }
 }
