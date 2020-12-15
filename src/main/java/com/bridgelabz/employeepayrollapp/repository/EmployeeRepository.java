@@ -9,6 +9,6 @@ import com.bridgelabz.employeepayrollapp.model.Employee;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-	
-	public Optional<Employee> findByEmpName(String empName);
+
+    public Optional<Employee> findByEmpName(String empName);
 }

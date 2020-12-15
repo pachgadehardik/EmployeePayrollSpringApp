@@ -19,39 +19,39 @@ import com.bridgelabz.employeepayrollapp.utility.TokenHelper;
 
 /**
  * @author hardi
- *Service Class for the User to log in the application
+ * Service Class for the User to log in the application
  */
 @Service
 public class UserImpl implements IUser {
 
-	@Autowired
-	private TokenHelper tokenHelper;
+    @Autowired
+    private TokenHelper tokenHelper;
 
-	@Autowired
-	private Environment environment;
+    @Autowired
+    private Environment environment;
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Autowired
-	private ModelMapper ModelMapper;
+    @Autowired
+    private ModelMapper ModelMapper;
 
-	/**
-	 * Login the user and checked whether it exists in DB
-	 */
-	@Override
-	public Response loginUser(UserDTO userDTO) {
-		Optional<User> user = userRepository.findUserByUserNameandUserPassword(userDTO.getUserName(),
-				userDTO.getUserPassword());
+    /**
+     * Login the user and checked whether it exists in DB
+     */
+    @Override
+    public Response loginUser(UserDTO userDTO) {
+        Optional<User> user = userRepository.findUserByUserNameandUserPassword(userDTO.getUserName(),
+                userDTO.getUserPassword());
 
 //		ModelMapper.map(userDTO,User.class);
-		if (!user.isPresent()) {
-			throw new EmployeeException(HttpStatus.BAD_REQUEST.value(), IMessage.USER_NOT_EXIST);
-		}
-		User userObj = user.get();
-		String tokenString = tokenHelper.createJWT(userObj.getId().toString(), environment.getProperty("token.issuer"),
-				environment.getProperty("token.subject"), Long.parseLong(environment.getProperty("token.expirationTime")));
-		return new Response(HttpStatus.OK.value(), HttpStatus.OK.name(), tokenString);
-	}
+        if (!user.isPresent()) {
+            throw new EmployeeException(HttpStatus.BAD_REQUEST.value(), IMessage.USER_NOT_EXIST);
+        }
+        User userObj = user.get();
+        String tokenString = tokenHelper.createJWT(userObj.getId().toString(), environment.getProperty("token.issuer"),
+                environment.getProperty("token.subject"), Long.parseLong(environment.getProperty("token.expirationTime")));
+        return new Response(HttpStatus.OK.value(), HttpStatus.OK.name(), tokenString);
+    }
 
 }

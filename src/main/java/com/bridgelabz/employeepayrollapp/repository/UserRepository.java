@@ -10,11 +10,11 @@ import com.bridgelabz.employeepayrollapp.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-	/**
-	 * @param userName
-	 * @param userPassWord
-	 * @return
-	 */
-	@Query(value = "Select * from userlogin where user_name = ?1 and user_password=?2 Limit 1", nativeQuery = true)
-	Optional<User> findUserByUserNameandUserPassword(String userName, String userPassWord);
+    /**
+     * @param userName
+     * @param userPassWord
+     * @return
+     */
+    @Query(value = "Select * from userlogin where user_name = ?1 and user_password=?2 Limit 1", nativeQuery = true)
+    Optional<User> findUserByUserNameandUserPassword(String userName, String userPassWord);
 }
