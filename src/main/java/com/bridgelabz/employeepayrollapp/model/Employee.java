@@ -15,11 +15,13 @@ import lombok.Data;
 @Data
 public class Employee {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String empName;
-	private Long salary;
-	private Date createdDate = new Date();
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String empName;
+    private Long salary;
+    private String gender;
+    private String department;
+    private Date createdDate = new Date();
+    
 }
