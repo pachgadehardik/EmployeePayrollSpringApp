@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 public class UserDTO {
 
-	@NotNull
-	private String userName;
-	@NotNull
-	private String userPassword;
-	
+    @NotNull
+    private String userName;
+    @NotNull
+    private String userPassword;
+
 }
